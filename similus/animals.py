@@ -1,4 +1,4 @@
-from similus import compare, get_data
+from similus import compare, get_data, compare_data
 import os
 
 class Crab(object):
@@ -7,7 +7,7 @@ class Crab(object):
 
     def load(images):
         for image in images:
-            self.images.append(get_data(image))
+            self.images.append((get_data(image), image))
 
     def __len__(self):
         return len(self.images)
@@ -19,7 +19,9 @@ class Crab(object):
         '''
         if not self.images:
             raise IndexError('No images loaded')
-        comparisons = ((other, compare(image, other)) for other in self.images)
+        image_data = get_data(image)
+        comparisons = ((other_image, compare_data(image_data, other_image_data)) for
+                       other_image_data, other_imagein self.images)
         if sort:
             return sorted(comparisons, key=lambda x:x[1])
         return comparisons

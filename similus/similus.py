@@ -11,7 +11,10 @@ def get_data(i):
     return (data - data.mean()) / data.std()
 
 def compare(im1, im2):
-    im1, im2 = (get_data(im) for im in (im1,im2))
+    d1, d2 = (get_data(im) for im in (im1,im2))
+    return compare_data(d1, d2)
+
+def compare_data(d1, d2):
     return correlate2d(im1, im2, mode='same').max()
 
 if __name__ == '__main__':
