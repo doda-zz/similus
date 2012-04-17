@@ -2,9 +2,9 @@
 
 Similus allows you to easily compute the similarity between 2 images
 
-* Caching of internal data structure for fast comparison of one to many
+### Features
+* Caching of internals for fast comparison of one to many
 * Rudimentary OCR
-
 
 ```python
 >>> import Image
@@ -32,7 +32,7 @@ Similus allows you to easily compute the similarity between 2 images
 
 ## Basic OCR
 
-If you have the font and can crop to single words (or even better single characters), Otter will automatically create
+If you have the font and can crop to single words (or even better single characters), Otter will automatically create images and perform image similarity comparisons
 
 ```python
 >>> import string
@@ -43,7 +43,9 @@ If you have the font and can crop to single words (or even better single charact
 u'Shake dat booty'
 >>> 'We can load images after the fact'
 >>> otter = None
->>> otter = similus.Otter('similus_images')
+>>> otter = similus.Otter(directory='similus_images')
 >>> otter.ocr(im1)
 u'Shake dat booty'
+>>> otter.ocr_char(im1.crop((0,0,10,12)))
+u'S'
 ```
