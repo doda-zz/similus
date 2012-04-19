@@ -4,6 +4,7 @@ import ImageDraw
 import ImageChops
 import Image
 from path import path
+from splitter import char_split
 
 def autocrop(im, bgcolor):
     if im.mode != "RGB":
@@ -16,12 +17,17 @@ def autocrop(im, bgcolor):
     return None # no contents
 
 class Crab(object):
+    '''Caches both the Image object as well as numpy array in memory'''
     def __init__(self):
         self.images = []
 
-    def load(images):
+    def load(self, images):
         for image in images:
-            self.images.append((get_data(image), image))
+            self.add(image)
+
+    def add(self, image):
+        self.images.append((get_data(image), image))
+        
 
     def __len__(self):
         return len(self.images)
@@ -44,7 +50,9 @@ class Crab(object):
         self.images = []
             
 class Otter(object):
+    '''OCR'''
     def __init__(self, directory=None):
+        self.crab = Crab()
         if directory:
             self.load_images(path(directory).files())
 
@@ -53,7 +61,8 @@ class Otter(object):
         directory = path(directory)
         directory.makedirs_p()
         for char in alphabet:
-            self.create_char(font, char, directory, font_size)
+            img = self.create_char(font, char, directory, font_size)
+            self.crab.add(img)
 
     def create_char(self, font, char, directory, font_size):
         im_size = (font_size*2, font_size*2)
@@ -64,11 +73,24 @@ class Otter(object):
 #        img.show()
         img_path = path(directory).joinpath('%05d.png' % ord(char))
         img.save(img_path)
-        print img_path
+        return img
+        #print img_path
 
-    def load_images(self, image_files):
-        for f in image_files:
-            pass
+    def load_images(self, image_file_paths):
+        for p in image_file_paths:
+            self.load_image(p)
+
+    def load_image(self, img_path):
+        img = Image.open(img_path)
+        self.crab.add(img)
+
+    def ocr(self, img):
+        return [ocr_char(im) for im in char_split(img)]
+
+    def ocr_char(self, img):
+        rankings = self.crab.compare_many(img)
+        fpath = path(rankings[0][0].filename)
+        return unichr(int(fpath.namebase))
             
 if __name__ == '__main__':
     import string
