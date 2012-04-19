@@ -15,7 +15,7 @@ def compare(im1, im2):
     return compare_data(d1, d2)
 
 def compare_data(d1, d2):
-    return correlate2d(im1, im2, mode='same').max()
+    return correlate2d(d1, d2, mode='same').max()
 
 if __name__ == '__main__':
     print compare(Image.open('/home/ddd/pr/sc2wow/races/0/t0.png'), Image.open('/home/ddd/pr/sc2wow/races/1/t1.png'))
