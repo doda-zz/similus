@@ -26,8 +26,7 @@ class Crab(object):
             self.add(image)
 
     def add(self, image):
-        self.images.append((get_data(image), image))
-        
+        self.images.append((image, get_data(image)))
 
     def __len__(self):
         return len(self.images)
@@ -41,9 +40,9 @@ class Crab(object):
             raise IndexError('No images loaded')
         image_data = get_data(image)
         comparisons = ((other_image, compare_data(image_data, other_image_data)) for
-                       other_image_data, other_image in self.images)
+                       other_image, other_image_data in self.images)
         if sort:
-            return sorted(comparisons, key=lambda x:x[1])
+            return sorted(comparisons, key=lambda x:x[1], reverse=True)
         return comparisons
 
     def clear(self):
@@ -85,7 +84,7 @@ class Otter(object):
         self.crab.add(img)
 
     def ocr(self, img):
-        return [ocr_char(im) for im in char_split(img)]
+        return ''.join(ocr_char(im) for im in char_split(img))
 
     def ocr_char(self, img):
         rankings = self.crab.compare_many(img)
