@@ -13,7 +13,7 @@ if sys.argv[-1] == "publish":
     os.system("python setup.py sdist upload")
     sys.exit()
 
-required = ['scipy','PIL',]
+required = ['scipy','PIL','path.py']
 
 setup(
     name='similus',
