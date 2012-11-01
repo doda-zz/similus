@@ -32,23 +32,3 @@ Similus allows you to easily compute the similarity between 2 images
 >>> len(crab)
 0
 ```
-
-## Basic OCR
-
-If you have the font and can crop to single words (or even better single characters), Otter will automatically create images and perform image similarity comparisons
-
-```python
->>> import string
->>> alphabet = string.letters + string.digits
->>> otter = similus.Otter()
->>> otter.create_images('fonts/arial.ttf', alphabet=alphabet, directory='similus_images')
->>> otter.ocr(im1)
-u'Shake dat booty'
->>> 'We can load images after the fact'
->>> otter = None
->>> otter = similus.Otter(directory='similus_images')
->>> otter.ocr(im1)
-u'Shake dat booty'
->>> otter.ocr_char(im1.crop((0,0,10,12)))
-u'S'
-```

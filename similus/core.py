@@ -1,4 +1,4 @@
-from similus import compare, get_data, compare_data
+from similus import get_data, compare_data
 import ImageChops
 import Image
 from path import path
@@ -22,11 +22,12 @@ class Crab(object):
         if images:
             self.load(images)
 
-    def load(self, images):
-        for image in images:
-            self.add(image)
+    def load(self, paths):
+        for pth in paths:
+            self.add(pth)
 
-    def add(self, image):
+    def add(self, file_path):
+        image = Image.open(file_path)
         self.images.append((image, get_data(image)))
 
     def __len__(self):
@@ -39,6 +40,8 @@ class Crab(object):
         '''
         if not self.images:
             raise IndexError('No images loaded')
+        if isinstance(image, basestring):
+            image = Image.open(image)
         # this stupid conversion has to happen for whatever reason
         image = image.convert('RGB')
         image_data = get_data(image)
