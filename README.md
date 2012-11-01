@@ -5,7 +5,6 @@ Similus allows you to easily compute the similarity between 2 images
 ### Features
 * Grayscale Image Comparison
 * Caching of internals for fast comparison of one to many
-* Rudimentary OCR
 
 ```python
 >>> import Image
@@ -24,8 +23,8 @@ Similus allows you to easily compute the similarity between 2 images
 >>> crab = similus.Crab([im1])
 >>> crab.add(im2)
 >>> 'compare im3 to im1 and im2'
->>> crab.similarities(im3)
-((im2, 232.3311), (im1, 193.1231))
+>>> crab.compare_all_to(im3)
+((<im2>, 232.3311), (<im1>, 193.1231))
 >>> len(crab)
 2
 >>> crab.clear()
